@@ -148,7 +148,7 @@ class CiviCRM_For_WordPress_Shortcodes_Modal {
     $capable_post_types = $this->get_post_types_with_editor();
 
     // Default allowed to true on all capable post types
-    $allowed = ( in_array( $screen->post_type, $capable_post_types ) ) ? true : false;
+    $allowed = ( in_array( $screen->post_type, $capable_post_types ) ) ? TRUE : FALSE;
 
     /**
      * Filter the appearance of the CiviCRM button.
@@ -182,8 +182,8 @@ class CiviCRM_For_WordPress_Shortcodes_Modal {
 
     // Get only post types with an admin UI
     $args = array(
-      'public' => true,
-      'show_ui' => true,
+      'public' => TRUE,
+      'show_ui' => TRUE,
     );
 
     // Get post types
