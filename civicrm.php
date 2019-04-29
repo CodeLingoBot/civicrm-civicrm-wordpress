@@ -642,7 +642,7 @@ class CiviCRM_For_WordPress {
     if ( get_option( 'civicrm_rules_flushed' ) !== 'true' ) {
 
       // Apply custom rewrite rules, then flush rules afterwards.
-      $this->rewrite_rules( true );
+      $this->rewrite_rules( TRUE );
 
       // Set a one-time-only option to flag that this has been done.
       add_option( 'civicrm_rules_flushed', 'true' );
@@ -700,7 +700,7 @@ class CiviCRM_For_WordPress {
    *
    * @param bool $flush_rewrite_rules True if rules should be flushed, false otherwise.
    */
-  public function rewrite_rules( $flush_rewrite_rules = false ) {
+  public function rewrite_rules( $flush_rewrite_rules = FALSE ) {
 
     // Kick out if not CiviCRM
     if (!$this->initialize()) {

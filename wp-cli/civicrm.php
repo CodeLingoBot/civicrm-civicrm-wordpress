@@ -204,7 +204,7 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
         # input params supplied via json ..
         case 'json':
           $json   = stream_get_contents( STDIN );
-          $params = ( empty( $json ) ? $defaults : array_merge( $defaults, json_decode( $json, true ) ) );
+          $params = ( empty( $json ) ? $defaults : array_merge( $defaults, json_decode( $json, TRUE ) ) );
           break;
 
         default:
@@ -233,7 +233,7 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
 
         # pretty-print output ( default )
         case 'pretty':
-          WP_CLI::line( print_r( $result, true ) );
+          WP_CLI::line( print_r( $result, TRUE ) );
           break;
 
         # display output as json
@@ -261,7 +261,7 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
       $config->clearDBCache();
 
       # also cleanup the templates_c directory
-      $config->cleanup( 1, false );
+      $config->cleanup( 1, FALSE );
 
       # also cleanup the session object
       $session = CRM_Core_Session::singleton();
@@ -300,29 +300,29 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
 
       # validate
 
-      if ( ! $dbuser = $this->getOption( 'dbuser', false ) ) {
+      if ( ! $dbuser = $this->getOption( 'dbuser', FALSE ) ) {
         return WP_CLI::error( 'CiviCRM database username not specified.' );
       }
 
-      if ( ! $dbpass = $this->getOption( 'dbpass', false ) ) {
+      if ( ! $dbpass = $this->getOption( 'dbpass', FALSE ) ) {
         return WP_CLI::error( 'CiviCRM database password not specified.' );
       }
 
-      if ( ! $dbhost = $this->getOption( 'dbhost', false ) ) {
+      if ( ! $dbhost = $this->getOption( 'dbhost', FALSE ) ) {
         return WP_CLI::error( 'CiviCRM database host not specified.' );
       }
 
-      if ( ! $dbname = $this->getOption( 'dbname', false ) ) {
+      if ( ! $dbname = $this->getOption( 'dbname', FALSE ) ) {
         return WP_CLI::error( 'CiviCRM database name not specified.' );
       }
 
-      if ( $lang = $this->getOption( 'lang', false ) and ! $langtarfile = $this->getOption( 'langtarfile', false ) ) {
+      if ( $lang = $this->getOption( 'lang', FALSE ) and ! $langtarfile = $this->getOption( 'langtarfile', FALSE ) ) {
         return WP_CLI::error( 'CiviCRM language tarfile not specified.' );
       }
 
       # begin install
 
-      if ( $plugin_path = $this->getOption( 'destination', false ) ) {
+      if ( $plugin_path = $this->getOption( 'destination', FALSE ) ) {
         $plugin_path = ABSPATH . $plugin_path;
       } else {
         $plugin_path = WP_PLUGIN_DIR . '/civicrm';
@@ -333,7 +333,7 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
       $crm_files_present = is_dir( $crmPath );
 
       # extract the archive
-      if ( $this->getOption( 'tarfile', false ) ) {
+      if ( $this->getOption( 'tarfile', FALSE ) ) {
         # should probably never get to here as Wordpress Civi comes in a zip file, but
         # just in case that ever changes ..
         if ( $crm_files_present ) {
@@ -343,7 +343,7 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
         if ( ! $this->untar( dirname( $plugin_path ) ) ) {
           return WP_CLI::error( 'Error extracting tarfile' );
         }
-      } elseif ( $this->getOption( 'zipfile', false ) ) {
+      } elseif ( $this->getOption( 'zipfile', FALSE ) ) {
         if ( $crm_files_present ) {
           return WP_CLI::error( 'Existing CiviCRM found. No action taken.' );
         }
@@ -449,8 +449,8 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
 
       WP_CLI::line( 'Generating civicrm settings file ..' );
 
-      if ( $base_url = $this->getOption( 'site_url', false ) ) {
-        $ssl      = $this->getOption( 'ssl', false );
+      if ( $base_url = $this->getOption( 'site_url', FALSE ) ) {
+        $ssl      = $this->getOption( 'ssl', FALSE );
         $protocol = ( 'on' == $ssl ? 'https' : 'http' );
       }
 
@@ -508,16 +508,16 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
 
       } else {
 
-        $_REQUEST['name'] = $this->getOption( 'civicrm_cron_username', null );
-        $_REQUEST['pass'] = $this->getOption( 'civicrm_cron_password', null );
-        $_REQUEST['key']  = $this->getOption( 'civicrm_sitekey', null );
+        $_REQUEST['name'] = $this->getOption( 'civicrm_cron_username', NULL );
+        $_REQUEST['pass'] = $this->getOption( 'civicrm_cron_password', NULL );
+        $_REQUEST['key']  = $this->getOption( 'civicrm_sitekey', NULL );
 
         global $argv;
         $argv = array(
           0 => 'drush',
           1 => '-u' . $_REQUEST['name'],
           2 => '-p' . $_REQUEST['pass'],
-          3 => '-s' . $this->getOption( 'uri', false ),
+          3 => '-s' . $this->getOption( 'uri', FALSE ),
          );
 
         # if ( !defined( 'CIVICRM_CONFDIR' ) ) {
@@ -561,7 +561,7 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
 
       civicrm_initialize();
 
-      if ( ! $query = $this->getOption( 'query', false ) ) {
+      if ( ! $query = $this->getOption( 'query', FALSE ) ) {
         return WP_CLI::error( 'query not specified.' );
       }
 
@@ -600,7 +600,7 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
     private function restore() {
 
       # validate ..
-      $restore_dir = $this->getOption( 'restore-dir', false );
+      $restore_dir = $this->getOption( 'restore-dir', FALSE );
       $restore_dir = rtrim( $restore_dir, '/' );
       if ( ! $restore_dir ) {
         return WP_CLI::error( 'Restore-dir not specified.' );
@@ -661,7 +661,7 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
 
       $restore_backup_dir .= '/plugins/restore/' . $date;
 
-      if ( ! mkdir( $restore_backup_dir, 0755, true ) ) {
+      if ( ! mkdir( $restore_backup_dir, 0755, TRUE ) ) {
         return WP_CLI::error( 'Failed creating directory: ' . $restore_backup_dir );
       }
 
@@ -738,7 +738,7 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
         WP_CLI::error( 'CIVICRM_DSN is not defined.' );
       }
 
-      WP_CLI::line( print_r( DB::parseDSN( CIVICRM_DSN ), true ) );
+      WP_CLI::line( print_r( DB::parseDSN( CIVICRM_DSN ), TRUE ) );
 
     }
 
@@ -885,7 +885,7 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
       for ( $i = 1; $i <= 3; $i++ ) {
         foreach ( $states as $state ) {
           $name = "{$state}Val_{$i}";
-          $value = $this->getOption( $name, null );
+          $value = $this->getOption( $name, NULL );
           if ( $value ) {
             $default_values[ $name ] = $value;
           }
@@ -924,7 +924,7 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
 
       # todo: use wp-cli to download tarfile.
       # todo: if tarfile is not specified, see if the code already exists and use that instead.
-      if ( ! $this->getOption( 'tarfile', false ) and ! $this->getOption( 'zipfile', false ) ) {
+      if ( ! $this->getOption( 'tarfile', FALSE ) and ! $this->getOption( 'zipfile', FALSE ) ) {
         return WP_CLI::error( 'Must specify either --tarfile or --zipfile' );
       }
 
@@ -1006,7 +1006,7 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
       # begin upgrade
 
       $backup_dir .= '/plugins/' . $date;
-      if ( ! mkdir( $backup_dir, 0755, true ) ) {
+      if ( ! mkdir( $backup_dir, 0755, TRUE ) ) {
         return WP_CLI::error( 'Failed creating directory: ' . $backup_dir );
       }
 
@@ -1031,13 +1031,13 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
       WP_CLI::success( '2. Database backed up.' );
 
       # decompress
-      if ( $this->getOption( 'tarfile', false ) ) {
+      if ( $this->getOption( 'tarfile', FALSE ) ) {
         # should probably never get to here, as looks like Wordpress Civi comes
         # in a zip file
         if ( ! $this->untar( $plugin_path ) ) {
           return WP_CLI::error( 'Error extracting tarfile' );
         }
-      } elseif ( $this->getOption( 'zipfile', false ) ) {
+      } elseif ( $this->getOption( 'zipfile', FALSE ) ) {
         if ( ! $this->unzip( $plugin_path ) ) {
           return WP_CLI::error( 'Error extracting zipfile' );
         }
@@ -1089,7 +1089,7 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
 
         // new since CiviCRM 4.1
         if ( is_callable( array( $upgrade, 'setPrint' ) ) ) {
-          $upgrade->setPrint( true );
+          $upgrade->setPrint( TRUE );
         }
 
         # to suppress html output /w source code.
@@ -1113,15 +1113,15 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
     private static function parseDSN( $dsn ) {
 
       $parsed = array(
-        'phptype'  => false,
-        'dbsyntax' => false,
-        'username' => false,
-        'password' => false,
-        'protocol' => false,
-        'hostspec' => false,
-        'port'     => false,
-        'socket'   => false,
-        'database' => false,
+        'phptype'  => FALSE,
+        'dbsyntax' => FALSE,
+        'username' => FALSE,
+        'password' => FALSE,
+        'protocol' => FALSE,
+        'hostspec' => FALSE,
+        'port'     => FALSE,
+        'socket'   => FALSE,
+        'database' => FALSE,
        );
 
       if ( is_array( $dsn ) ) {
@@ -1133,12 +1133,12 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
       }
 
       // Find phptype and dbsyntax
-      if ( ( $pos = strpos( $dsn, '://' ) ) !== false ) {
+      if ( ( $pos = strpos( $dsn, '://' ) ) !== FALSE ) {
         $str = substr( $dsn, 0, $pos );
         $dsn = substr( $dsn, $pos + 3 );
       } else {
         $str = $dsn;
-        $dsn = null;
+        $dsn = NULL;
       }
 
       // Get phptype and dbsyntax
@@ -1157,10 +1157,10 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
 
       // Get ( if found ): username and password
       // $dsn => username:password@protocol+hostspec/database
-      if ( ( $at = strrpos( $dsn,'@' ) ) !== false ) {
+      if ( ( $at = strrpos( $dsn,'@' ) ) !== FALSE ) {
         $str = substr( $dsn, 0, $at );
         $dsn = substr( $dsn, $at + 1 );
-        if ( ( $pos = strpos( $str, ':' ) ) !== false ) {
+        if ( ( $pos = strpos( $str, ':' ) ) !== FALSE ) {
           $parsed['username'] = rawurldecode( substr( $str, 0, $pos ) );
           $parsed['password'] = rawurldecode( substr( $str, $pos + 1 ) );
         } else {
@@ -1173,26 +1173,26 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
       if ( preg_match( '|^([^(]+)\((.*?)\)/?(.*?)$|', $dsn, $match ) ) {
         // $dsn => proto( proto_opts )/database
         $proto       = $match[1];
-        $proto_opts  = $match[2] ? $match[2] : false;
+        $proto_opts  = $match[2] ? $match[2] : FALSE;
         $dsn         = $match[3];
 
       } else {
         // $dsn => protocol+hostspec/database ( old format )
-        if ( strpos( $dsn, '+' ) !== false ) {
+        if ( strpos( $dsn, '+' ) !== FALSE ) {
           list( $proto, $dsn ) = explode( '+', $dsn, 2 );
         }
-        if ( strpos( $dsn, '/' ) !== false ) {
+        if ( strpos( $dsn, '/' ) !== FALSE ) {
           list( $proto_opts, $dsn ) = explode( '/', $dsn, 2 );
         } else {
           $proto_opts = $dsn;
-          $dsn = null;
+          $dsn = NULL;
         }
       }
 
       // process the different protocol options
       $parsed['protocol'] = ( ! empty( $proto ) ) ? $proto : 'tcp';
       $proto_opts = rawurldecode( $proto_opts );
-      if ( strpos( $proto_opts, ':' ) !== false ) {
+      if ( strpos( $proto_opts, ':' ) !== FALSE ) {
         list( $proto_opts, $parsed['port'] ) = explode( ':', $proto_opts );
       }
       if ( 'tcp' == $parsed['protocol'] ) {
@@ -1204,14 +1204,14 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
       // Get dabase if any
       // $dsn => database
       if ( $dsn ) {
-        if ( ( $pos = strpos( $dsn, '?' ) ) === false ) {
+        if ( ( $pos = strpos( $dsn, '?' ) ) === FALSE ) {
           // /database
           $parsed['database'] = rawurldecode( $dsn );
         } else {
           // /database?param1=value1&param2=value2
           $parsed['database'] = rawurldecode( substr( $dsn, 0, $pos ) );
           $dsn = substr( $dsn, $pos + 1 );
-          if ( strpos( $dsn, '&' ) !== false ) {
+          if ( strpos( $dsn, '&' ) !== FALSE ) {
             $opts = explode( '&', $dsn );
           } else { // database?param1=value1
             $opts = array( $dsn );
@@ -1297,13 +1297,13 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
      */
     private function untar( $destination_path, $option = 'tarfile' ) {
 
-      if ( $tarfile = $this->getOption( $option, false ) ) {
+      if ( $tarfile = $this->getOption( $option, FALSE ) ) {
         WP_CLI::launch( "gzip -d $tarfile" );
         $tarfile = substr( $tarfile, 0, strlen( $tarfile ) - 3 );
         WP_CLI::launch( "tar -xf $tarfile -C \"$destination_path\"" );
-        return true;
+        return TRUE;
       } else {
-        return false;
+        return FALSE;
       }
 
     }
@@ -1316,12 +1316,12 @@ if ( ! defined( 'CIVICRM_WPCLI_LOADED' ) ) {
      */
     private function unzip( $destination_path, $option = 'zipfile' ) {
 
-      if ( $zipfile = $this->getOption( $option, false ) ) {
+      if ( $zipfile = $this->getOption( $option, FALSE ) ) {
         WP_CLI::line( 'Extracting zip archive ...' );
         WP_CLI::launch( "unzip -q $zipfile -d $destination_path" );
-        return true;
+        return TRUE;
       } else {
-        return false;
+        return FALSE;
       }
 
     }
